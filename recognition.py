@@ -1,5 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random as random
+
+
+#global variables
+e = 2.71
 
 
 # A function to plot images
@@ -57,18 +62,35 @@ def test_set_reader():
 
         test_set.append((image, label))
 
+
 # Plotting an image
-def main():
-    manual_number = 10
-    train_set_reader(manual_number)
+def plot_image():
+    manual_number = 100
     counter = 0;
+    train_set_reader(manual_number)
     for i in range(manual_number):
         show_image(train_set[i][0])
         plt.show()
         label = np.where(train_set[i][1] == np.amax(train_set[i][1]))
         print(int(label[0]))
         counter += 1
-    print("counter ", counter)
+    print("counter: ", counter)
+
+
+def sigmoed_function(x):
+    return 1 / (1 + (pow(e, (-1 * x))))
+
+
+weight_W = np.random.uniform(0,1,(16,784))
+weight_V = np.random.uniform(0, 1, (16, 16))
+weight_Q = np.random.uniform(0, 1, (10, 16))
+bias_b0 = np.random.uniform(0,0, (784, 1))
+bias_b1 = np.random.uniform(0, 0, (15, 1))
+bias_b2 = np.random.uniform(0, 0, (10, 1))
+
+def main():
+    print(weight_Q)
+
 
 
 main()
