@@ -91,41 +91,49 @@ def calculus(neuron, weight, bias):
 
 
 def forward_chaining():
-    # weight matrix's
-    weight_W = np.random.normal(size=(16, 784))
-    weight_V = np.random.normal(size=(16, 16))
-    weight_Q = np.random.normal(size=(10, 16))
+    correctness = []
+    for i in range(100):
+        # weight matrix's
+        weight_W = np.random.normal(size=(16, 784))
+        weight_V = np.random.normal(size=(16, 16))
+        weight_Q = np.random.normal(size=(10, 16))
 
-    # bias vectors
-    bias_b0 = np.random.uniform(0, 0, (16, 1))
-    bias_b1 = np.random.uniform(0, 0, (16, 1))
-    bias_b2 = np.random.uniform(0, 0, (10, 1))
+        # bias vectors
+        bias_b0 = np.random.uniform(0, 0, (16, 1))
+        bias_b1 = np.random.uniform(0, 0, (16, 1))
+        bias_b2 = np.random.uniform(0, 0, (10, 1))
 
-    correct_cunter = 0
-    for img in range(100):
-        image = train_set[img][0]
-        neuron_A0 = np.array(image)
-        neuron_A1 = calculus(neuron_A0, weight_W, bias_b0)
-        neuron_A2 = calculus(neuron_A1, weight_V, bias_b1)
-        neuron_A3 = calculus(neuron_A2, weight_Q, bias_b2)
-        print(neuron_A3)
-        max_number = neuron_A3.max()
-        print("max number: ", max_number)
-        max_index = 0
-        for i in range(10):
-            if max_number == neuron_A3[i][0]:
-                max_index = i
-                break
-        print("index of the max number: ", max_index)
-        print(np.where(train_set[img][1] == np.amax(train_set[img][1])))
-        label = np.where(train_set[img][1] == np.amax(train_set[img][1]))
-        if label == max_index:
-            correct_cunter += 1
-        print("lable: ", int(label[0]))
-        print()
+        correct_counter = 0
+        for img in range(100):
+            image = train_set[img][0]
+            neuron_A0 = np.array(image)
+            neuron_A1 = calculus(neuron_A0, weight_W, bias_b0)
+            neuron_A2 = calculus(neuron_A1, weight_V, bias_b1)
+            neuron_A3 = calculus(neuron_A2, weight_Q, bias_b2)
+            print(neuron_A3)
+            max_number = neuron_A3.max()
+            print("max number: ", max_number)
+            max_index = 0
+            for i in range(10):
+                if max_number == neuron_A3[i][0]:
+                    max_index = i
+                    break
+            print("index of the max number: ", max_index)
 
-    correct_persentage = correct_cunter/100
-    print(correct_cunter, "%")
+            print(np.where(train_set[img][1] == np.amax(train_set[img][1])))
+            label = np.where(train_set[img][1] == np.amax(train_set[img][1]))
+            label = label[0]
+            if label == max_index:
+                correct_counter += 1
+            print("lable: ", int(label[0]))
+            print()
+
+        print(correct_counter, "%")
+        correctness.append(correct_counter)
+
+    plt.plot([x for x in range(100)], correctness)
+    plt.show()
+
 
 def main():
     plot_image()
